@@ -1,0 +1,43 @@
+# Autonomous Voice-to-Action Web Agent configuration
+# All paths are resolved relative to the project root; no hardcoded absolute paths.
+
+app:
+  name: "autonomous-voice-agent"
+  version: "0.1.0"
+  log_level: "INFO"
+
+browser:
+  headless: false
+  viewport_width: 1280
+  viewport_height: 800
+  timeout_ms: 30000
+
+sites:
+  mock_store_url: "http://127.0.0.1:8765/store/index.html"
+  mock_dashboard_url: "http://127.0.0.1:8765/dashboard/index.html"
+
+safety:
+  max_steps: 50
+  allowlist_domains:
+    - "127.0.0.1"
+    - "localhost"
+  require_confirmation_for:
+    - "purchase"
+    - "delete"
+    - "submit_payment"
+
+stt:
+  model: "small"
+  language: "en"
+  wake_word: "computer"
+  vad_aggressiveness: 2
+
+vision:
+  model: "qwen2-vl-2b-instruct-q4_k_m.gguf"
+  mmproj: "qwen2-vl-2b-mmproj-f16.gguf"
+  n_gpu_layers: 20
+  ctx_size: 4096
+
+tts:
+  model: "en_US-lessac-medium"
+  speaker: ""

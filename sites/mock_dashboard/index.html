@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock Dashboard</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; margin: 0; }
+  .shell { display: flex; height: 100vh; }
+  .sidebar { width: 220px; background: #f4f4f4; padding: 1rem; border-right: 1px solid #ddd; }
+  .sidebar h3 { margin-top: 0; }
+  .sidebar a { display: block; padding: 0.5rem; margin: 0.25rem 0; text-decoration: none; color: #0066cc; border-radius: 4px; }
+  .sidebar a.active { background: #e3f2fd; font-weight: bold; }
+  .main { flex: 1; padding: 2rem; overflow-y: auto; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .metric-card { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; background: #fff; }
+  .metric-value { font-size: 2rem; font-weight: bold; color: #0066cc; }
+  .metric-label { color: #666; font-size: 0.9rem; }
+  canvas { max-width: 100%; height: 300px; background: #fafafa; border: 1px solid #ddd; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+  th { background: #f4f4f4; }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="sidebar">
+      <h3>Dashboard</h3>
+      <a href="#" class="active">Overview</a>
+      <a href="#">Analytics</a>
+      <a href="#">Settings</a>
+    </nav>
+    <main class="main">
+      <h1>Overview</h1>
+      <div class="metrics">
+        <div class="metric-card"><div class="metric-value">$45,230</div><div class="metric-label">Revenue</div></div>
+        <div class="metric-card"><div class="metric-value">1,234</div><div class="metric-label">Orders</div></div>
+        <div class="metric-card"><div class="metric-value">98.2%</div><div class="metric-label">Uptime</div></div>
+        <div class="metric-card"><div class="metric-value">42</div><div class="metric-label">Active Users</div></div>
+      </div>
+      <canvas id="revenue-chart"></canvas>
+      <table>
+        <thead><tr><th>Item</th><th>Status</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Order #1001</td><td>Shipped</td><td>$89.99</td></tr>
+          <tr><td>Order #1002</td><td>Processing</td><td>$149.50</td></tr>
+          <tr><td>Order #1003</td><td>Pending</td><td>$54.00</td></tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+  <script>
+    const ctx = document.getElementById("revenue-chart").getContext("2d");
+    ctx.fillStyle = "#0066cc";
+    ctx.fillRect(50, 200, 60, 100);
+    ctx.fillRect(120, 150, 60, 150);
+    ctx.fillRect(190, 250, 60, 50);
+    ctx.fillRect(260, 100, 60, 200);
+    ctx.fillRect(330, 180, 60, 120);
+  </script>
+</body>
+</html>

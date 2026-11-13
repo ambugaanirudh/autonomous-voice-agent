@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock Store - Products</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+  .nav { margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center; }
+  .nav a { text-decoration: none; color: #0066cc; }
+  .cart-count { background: #0066cc; color: white; border-radius: 50%; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+  .product { border: 1px solid #ddd; padding: 1rem; margin: 1rem 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+  .product h3 { margin: 0 0 0.5rem 0; }
+  .product .price { font-weight: bold; color: #0066cc; }
+  button.add-to-cart { background: #0066cc; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+  button.add-to-cart:disabled { background: #ccc; cursor: not-allowed; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/store/index.html">Home</a>
+    <a href="/store/cart.html" id="cart-link">Cart <span class="cart-count" id="cart-count">0</span></a>
+  </nav>
+  <h1>Products</h1>
+  <div id="product-list">
+    <div class="product" data-product-id="widget-001">
+      <div>
+        <h3>Acme Widget</h3>
+        <p class="price">$9.99</p>
+        <p>A reliable widget for everyday use.</p>
+      </div>
+      <button class="add-to-cart" data-product-id="widget-001">Add to Cart</button>
+    </div>
+    <div class="product" data-product-id="gadget-002">
+      <div>
+        <h3>Super Gadget</h3>
+        <p class="price">$19.99</p>
+        <p>The gadget you never knew you needed.</p>
+      </div>
+      <button class="add-to-cart" data-product-id="gadget-002">Add to Cart</button>
+    </div>
+    <div class="product" data-product-id="doohickey-003">
+      <div>
+        <h3>Mystery Doohickey</h3>
+        <p class="price">$4.99</p>
+        <p>What does it do? You'll find out.</p>
+      </div>
+      <button class="add-to-cart" data-product-id="doohickey-003">Add to Cart</button>
+    </div>
+  </div>
+  <script>
+    const cart = JSON.parse(localStorage.getItem("mock_store_cart") || "[]");
+    document.getElementById("cart-count").textContent = cart.length;
+    document.querySelectorAll(".add-to-cart").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.productId;
+        cart.push(id);
+        localStorage.setItem("mock_store_cart", JSON.stringify(cart));
+        document.getElementById("cart-count").textContent = cart.length;
+        btn.textContent = "Added";
+        btn.disabled = true;
+      });
+    });
+  </script>
+</body>
+</html>

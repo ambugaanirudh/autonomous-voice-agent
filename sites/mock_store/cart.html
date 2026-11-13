@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock Store - Cart</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+  .nav a { text-decoration: none; color: #0066cc; margin-right: 1rem; }
+  .empty { color: #666; font-style: italic; }
+  .cart-item { border: 1px solid #ddd; padding: 1rem; margin: 1rem 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+  .remove-btn { background: #cc0000; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer; }
+  .checkout-btn { background: #00aa00; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+  .checkout-btn:disabled { background: #ccc; cursor: not-allowed; }
+  .total { font-size: 1.2rem; font-weight: bold; margin-top: 1rem; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/store/index.html">Continue Shopping</a>
+  </nav>
+  <h1>Your Cart</h1>
+  <div id="cart-items"></div>
+  <div class="total" id="cart-total">Total: $0.00</div>
+  <button class="checkout-btn" id="checkout-btn" disabled>Proceed to Checkout</button>
+  <script>
+    const prices = { "widget-001": 9.99, "gadget-002": 19.99, "doohickey-003": 4.99 };
+    const names = { "widget-001": "Acme Widget", "gadget-002": "Super Gadget", "doohickey-003": "Mystery Doohickey" };
+    const cart = JSON.parse(localStorage.getItem("mock_store_cart") || "[]");
+    const container = document.getElementById("cart-items");
+    const totalEl = document.getElementById("cart-total");
+    const checkoutBtn = document.getElementById("checkout-btn");
+
+    function render() {
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="empty">Your cart is empty.</p>';
+        checkoutBtn.disabled = true;
+        totalEl.textContent = "Total: $0.00";
+        return;
+      }
+      container.innerHTML = "";
+      let total = 0;
+      cart.forEach((id, idx) => {
+        total += prices[id];
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `<span>${names[id]} - $${prices[id].toFixed(2)}</span><button class="remove-btn" data-idx="${idx}">Remove</button>`;
+        container.appendChild(div);
+      });
+      totalEl.textContent = `Total: $${total.toFixed(2)}`;
+      checkoutBtn.disabled = false;
+      document.querySelectorAll(".remove-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const idx = parseInt(btn.dataset.idx, 10);
+          cart.splice(idx, 1);
+          localStorage.setItem("mock_store_cart", JSON.stringify(cart));
+          render();
+        });
+      });
+    }
+    render();
+    checkoutBtn.addEventListener("click", () => {
+      window.location.href = "/store/checkout.html";
+    });
+  </script>
+</body>
+</html>
