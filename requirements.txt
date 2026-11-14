@@ -17,5 +17,6 @@ webrtcvad-wheels==2.0.14.post1
 numpy==1.26.4
 requests==2.32.3
 
-# Phase 4: VLM (uncomment when ready)
-# llama-cpp-python==0.2.79
+# Phase 4: VLM
+llama-cpp-python==0.2.79
+Pillow==10.4.0

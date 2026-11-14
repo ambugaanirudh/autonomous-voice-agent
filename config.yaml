@@ -33,8 +33,8 @@ stt:
   vad_aggressiveness: 2
 
 vision:
-  model: "qwen2-vl-2b-instruct-q4_k_m.gguf"
-  mmproj: "qwen2-vl-2b-mmproj-f16.gguf"
+  model: "models/qwen2-vl-2b-instruct-q4_k_m.gguf"
+  mmproj: "models/qwen2-vl-2b-mmproj-f16.gguf"
   n_gpu_layers: 20
   ctx_size: 4096
 

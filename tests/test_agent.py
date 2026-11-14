@@ -1,11 +1,20 @@
-"""Unit tests for the Agent core loop skeleton."""
+"""Unit tests for the Agent core loop."""
 from __future__ import annotations
+
+from unittest.mock import MagicMock
 
 import pytest
 
 from src.agent import Action, Agent, LoopResult
+from src.browser.controller import BrowserController, BrowserConfig
 from src.config import AppConfig
+from src.executor.executor import Executor
+from src.planner.planner import Planner
+from src.safety.guard import SafetyGuard
 from src.state import State
+from src.stt.listener import Listener
+from src.vision.grounding import GroundingGuard
+from src.vision.vlm import VLMClient
 
 
 @pytest.fixture
@@ -14,15 +23,28 @@ def config() -> AppConfig:
 
 
 @pytest.fixture
-def agent(config: AppConfig) -> Agent:
-    return Agent(config=config, state=State())
+def mock_dependencies() -> dict:
+    return {
+        "listener": MagicMock(spec=Listener),
+        "planner": MagicMock(spec=Planner),
+        "browser": MagicMock(spec=BrowserController),
+        "executor": MagicMock(spec=Executor),
+        "vlm": MagicMock(spec=VLMClient),
+        "grounding_guard": MagicMock(spec=GroundingGuard),
+        "safety": MagicMock(spec=SafetyGuard),
+    }
+
+
+@pytest.fixture
+def agent(config: AppConfig, mock_dependencies: dict) -> Agent:
+    return Agent(config=config, state=State(), **mock_dependencies)
 
 
 def test_agent_initial_state(agent: Agent) -> None:
     assert agent.state.goal == ""
     assert agent.state.plan == []
     assert agent.state.retry_count == 0
-    assert agent.max_steps == config.safety.max_steps if False else 50
+    assert agent.max_steps == 50
 
 
 def test_action_enum_values() -> None:
